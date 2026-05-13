@@ -1,4 +1,4 @@
-#Creacion de la clase alumno
+#Creacion de la clase alumno y sus propiedades
 class Alumno:
     def __init__(self, rut, nombre, apellido, curso):
         self.rut = rut
