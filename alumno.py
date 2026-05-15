@@ -4,7 +4,7 @@ class Alumno:
         self.nombre = nombre
         self.apellido = apellido
         self.curso = curso
-        self.password =None
+        Self.password= None
         #metodo de creacion de contraseña este metodo permite crear la contraseña del alumno y poder guardarla  
     def contraseña(self,clave):
           self.password= clave
