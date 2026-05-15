@@ -1,3 +1,4 @@
+#Creacion de la clase alumno y sus propiedades
 class Alumno:
     def __init__(self, rut, nombre, apellido, curso):
         self.rut = rut
@@ -28,3 +29,4 @@ class Alumno:
     def ficha_alumno(self):
       print(f"el alumno {self.nombre}, {self.apellido} a sido registrado en el curso {self.curso}")
 
+        self.password = None
