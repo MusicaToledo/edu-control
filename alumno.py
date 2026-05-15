@@ -27,4 +27,3 @@ class Alumno:
 #parecidos del certificado del alumno pero en un formato diferente
     def ficha_alumno(self):
       print(f"el alumno {self.nombre}, {self.apellido} a sido registrado en el curso {self.curso}")
-
