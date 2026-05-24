@@ -2,6 +2,8 @@ import colegio as Colegio
 import administrador as Administador
 import alumno as Alumno
 
+registro = Colegio.Colegio()
+
 #Aqui va la funcion para mostrar el panel principal
 
 
@@ -63,7 +65,15 @@ import alumno as Alumno
 
 #Aqui va la funcion de generar_certificado()
 
-
+def generar_certificado(alumno):
+    try:
+        registro.buscar_alumno_por_rut(alumno.rut)
+        print(f"El alumno {alumno.nombre} {alumno.apellido} se encuentra matriculado en el nivel {alumno.curso}")
+    except:
+        print("Error: Alumno no encontrado")
 
 
 #Aqui termina la funcion de generar_certificado()
+alumno = Alumno.Alumno("205045678", "Martin", "Ardiles", "1ro Medio")
+if __name__ == "__main__":
+    generar_certificado(alumno)
