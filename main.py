@@ -66,14 +66,20 @@ registro = Colegio.Colegio()
 #Aqui va la funcion de generar_certificado()
 
 def generar_certificado(alumno):
+    intentos = 3
     try:
-        registro.buscar_alumno_por_rut(alumno.rut)
-        print(f"El alumno {alumno.nombre} {alumno.apellido} se encuentra matriculado en el nivel {alumno.curso}")
-    except:
-        print("Error: Alumno no encontrado")
+        while intentos > 0:
+            clave = input(f"Hola {alumno.nombre}, ingresa tu clave: ")
+            if alumno.validar_de_contraseña(clave):
+                registro.buscar_alumno_por_rut(alumno.rut)
+                print(f"El alumno {alumno.nombre} {alumno.apellido} se encuentra matriculado en el nivel {alumno.curso}")
+                break
+            else:
+                intentos -= 1
+                print(f"Contraseña incorrecta te quedan {intentos} intentos.")
+        print("Se te agotaron los intentos. No se imprimira el certificado.")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 #Aqui termina la funcion de generar_certificado()
-alumno = Alumno.Alumno("205045678", "Martin", "Ardiles", "1ro Medio")
-if __name__ == "__main__":
-    generar_certificado(alumno)
