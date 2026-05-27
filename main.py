@@ -11,43 +11,66 @@ import alumno as Alumno
 
 
 #Aqui va la funcion para validacion_clave()
-#Debe permitir validar la identidad tanto al Alumno como al Administrador
-#Debe permitir solo 3 intentos
-def main():
-    sistema= Administador()
+
+# Aquí preparamos todo antes de empezar, traemos al administrador, definimos 
+# que el límite son 3 intentos, ponemos el contador a cero y dejamos el acceso 
+# cerrado hasta que se demuestre lo contrario.
+def validacion_clave():
+    sistema= Administador.Administrador() #Instanciamos el objeto del administrador para poder verificarla o cambiarla
     intento = 3
     contador = 0
-    autenticado = False
+    autenticado = False #Dejamos el acceso cerrado (autenticado = False) hasta que se demuestre lo contrario.
+    print("=======================================================")
+    print("            SISTEMA DE VALIDACIÓN DE CLAVE")
+    print("=======================================================")
 
-    print("Validacion clave")
+# Este bucle le da al usuario 3 intentos para poner la clave. Si es correcto, 
+# abrimos el candado (autenticado = True) y saltamos hacia adelante. Si le se equivoca, 
+# le sumamos un error, calculamos cuántos intentos le quedan y lo dejamos reintentar.
+
     while contador < intento:
-        clave = ("Ingrese clave")
-        if sistema.clave:
-            print ("Acceso concedido")
+        clave = input("Ingrese clave: ")
+        if sistema.clave(clave):
+            print ("Acceso concedido.")
             autenticado = True
             break
         else:
             contador +=1
             intentos_restantes= intento - contador
-            print(f"clave incorrecta. Intento restante : { intentos_restantes}")
+            print(f"Clave incorrecta. Intentos restantes : { intentos_restantes}")
+
+# Acá revisamos qué pasó arriba. Si el usuario falló los 3 intentos, el programa avisa que el sistema se bloqueó y tira un 
+# 'return' para echarlo de la función inmediatamente, sin dejarlo ver el menú.
     if not autenticado:
-        print("sistema bloqueado: has superado el limite de los 3 intentos")
+        print("************************************************************")
+        print("SISTEMA BLOQUEADO: has superado el límite de los 3 intentos.")
+        print("************************************************************")
         return
+    
+#MENÚ INTERACTIVO 
+# Si el usuario pasó el filtro, llega acá. Es un menú que se repite todo el 
+# tiempo en pantalla para que elija: la Opción 1 para cambiar la contraseña,
+# la Opción 2 para cerrar sesión y salir del programa.
+
     while True:
-        print("Menu de clave")
-        print("1.Cambiar clave")
-        print("2.Salir")
+        print("-------------------------------------------")
+        print("               MENÚ CLAVE")
+        print("-------------------------------------------")
+        print("1. Cambiar clave")
+        print("2. Salir")
+        print("-------------------------------------------")
 
         opcion = input("Selecciona la opcion: ")
         if opcion == "1":
-            nueva = input("Introduce clave nueva")
+            nueva = input("Introduce clave nueva: ")
+            sistema.cambio_clave(nueva)
         elif opcion == "2":
-            print("Cerrando sesion.")
+            print("Cerrando sesion. Hasta luego!")
             break
-        else:print("Opcion inválida")
+        else:
+            print("Opcion inválida.")
 
-
-
+validacion_clave()
 
 #Aqui termina la funcion de validacion_clave()
 

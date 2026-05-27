@@ -12,4 +12,4 @@ class Administrador:
             return False
         
     def  cambio_clave (self,nueva_clave):
-        self.admin_key["clave"]=nueva_clave
+        self.admin_key=nueva_clave
