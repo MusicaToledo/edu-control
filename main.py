@@ -1,6 +1,6 @@
 import colegio as Colegio
 import administrador as Administador
-import alumno as Alumno
+from alumno import Alumno
 
 registro = Colegio.Colegio()
 
@@ -15,7 +15,7 @@ registro = Colegio.Colegio()
 #Aqui va la funcion para validacion_clave()
 #Debe permitir validar la identidad tanto al Alumno como al Administrador
 #Debe permitir solo 3 intentos
-def main():
+def main(Administador):
     sistema= Administador()
     intento = 3
     contador = 0
@@ -86,13 +86,29 @@ def main():
 
 #Aqui termina la funcion de actualizar_credencial()
 
+# Aqui va la funcion de obtener_ficha()
 
-#Aqui va la funcion de obtener_ficha()
+def obtener_ficha(): 
+    print(" --- Obtener ficha Academica ---")
+    rut = input("Ingrese el RUT del alumno a buscar: ")
+    alumno = registro.buscar_alumno_por_rut(rut)
+
+    if alumno != None:
+        print("=======================================")
+        print("          DATOS DEL ALUMNO             ")
+        print("=======================================")
+        print(f"RUT:           {alumno.rut}")
+        print(f"Nombre:        {alumno.nombre}")
+        print(f"Apellido:      {alumno.apellido}")
+        print(f"Curso:         {alumno.curso}")
+        print("---------------------------------------")
+        print("=======================================")
+    else:
+            print("El alumno con RUT ingresado no se encuentra registrado.")
 
 
 
-
-#Aqui termina la funcion de obtener_ficha()
+# Aqui termina la funcion de obtener_ficha()
 
 
 #Aqui va la funcion de generar_certificado()
