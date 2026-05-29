@@ -147,107 +147,47 @@ def panel_alumno(alumno):
 #Debe pedir la contraseña dos v
 
 def gestionar_clave_alumno(alumno):
-    # GESTIONAR CONTRASEÑA
-    if not alumno.password:
-        while True:
-            nueva_c1 = input("Nueva contraseña: ").strip()
-            nueva_c2 = input("Confirme nueva contraseña: ").strip()
-            
-            if nueva_c1 == nueva_c2:
-                if nueva_c1 != "":
-                    alumno.password = nueva_c1
-                    print("Contraseña actualizada con éxito.")
-                    break
-                else:                
-                    print("La contraseña no puede estar vacía.")
-            else:
-                print("Las contraseñas no coinciden")
-    else:
-        def gestionar_clave_alumno(alumno):
-
         #Si no encontramos su clave
-
-            if not alumno.password:
-
-                #La crearemos
-
-                while True:
-
-                    #El alumno ingresa su clave y la validamos dos veces con .strip() le quitamos los espacios al texto
-
-                    clave_alumno = input(f"Debes crear tu clave sin espacios: ").strip()
-
-                    clave_alumno2 = input("Repite la clave: ").strip()
-
-                    #Validamos si las claves no estan vacias y si coinciden
-
-                    if clave_alumno == clave_alumno2 and clave_alumno != "":
-
-                        #Establecemos la clave del alumno
-
-                        alumno.establecer_clave(clave_alumno)
-
-                        print("Operacion completada con exito.")
-
-                        input("Pulsa ENTER para continuar...")
-
-                        return
-
-                    else:
-
-                        #Le indicamos al alumno que hubo un error
-
-                        print("Las claves no coinciden o estan vacias.")
-
-                        input("Pulsa ENTER para continuar...")
-
-                        
-
-            #Por otro lado si encontramos que el alumno si cuenta con clave
-
+    if not alumno.password:
+            #La crearemos
+        while True:
+                #El alumno ingresa su clave y la validamos dos veces con .strip() le quitamos los espacios al texto
+            clave_alumno = input(f"Debes crear tu clave sin espacios: ").strip()
+            clave_alumno2 = input("Repite la clave: ").strip()
+                #Validamos si las claves no estan vacias y si coinciden
+            if clave_alumno == clave_alumno2 and clave_alumno != "":
+                    #Establecemos la clave del alumno
+                alumno.establecer_clave(clave_alumno)
+                print("Operacion completada con exito.")
+                input("Pulsa ENTER para continuar...")
+                return
             else:
-
-                #La validaremos
-
-                if not alumno.password(alumno):
-
-                    return
-
-                #Si valida su clave con exito la modificaremos
-
-                while True:
-
-                    #El alumno ingresa su clave y la validamos dos veces con .strip() le quitamos los espacios al texto
-
-                    clave_alumno = input(f"Debes modificar tu clave sin espacios: ").strip()
-
-                    clave_alumno2 = input("Repite la clave: ").strip()
-
-                    #Validamos si las claves no estan vacias y si coinciden
-
-                    if clave_alumno == clave_alumno2 and clave_alumno != "":
-
-                        #Establecemos la clave del alumno
-
-                        alumno.establecer_clave(clave_alumno)
-
-                        print("Operacion completada con exito.")
-
-                        input("Pulsa ENTER para continuar...")
-
-                        return
-
-                    else:
-
-                        #Le indicamos al alumno que hubo un error
-
-                        print("Las claves no coinciden o estan vacias.")
-
-                        input("Pulsa ENTER para continuar...")
-
-                        continue      
-
-
+                    #Le indicamos al alumno que hubo un error
+                print("Las claves no coinciden o estan vacias.")
+                input("Pulsa ENTER para continuar...")
+                    
+        #Por otro lado si encontramos que el alumno si cuenta con clave
+    else:
+            #La validaremos
+        if not validacion_clave(alumno.rut):
+            return
+            #Si valida su clave con exito la modificaremos
+        while True:
+            #El alumno ingresa su clave y la validamos dos veces con .strip() le quitamos los espacios al texto
+            clave_alumno = input(f"Debes modificar tu clave sin espacios: ").strip()
+            clave_alumno2 = input("Repite la clave: ").strip()
+                #Validamos si las claves no estan vacias y si coinciden
+            if clave_alumno == clave_alumno2 and clave_alumno != "":
+                    #Establecemos la clave del alumno
+                alumno.establecer_clave(clave_alumno)
+                print("Operacion completada con exito.")
+                input("Pulsa ENTER para continuar...")
+                return
+            else:
+                    #Le indicamos al alumno que hubo un error
+                print("Las claves no coinciden o estan vacias.")
+                input("Pulsa ENTER para continuar...")
+                continue
 #Aqui termina la funcion de actualizar_credencial()
 
 # Aqui va la funcion de obtener_ficha()
