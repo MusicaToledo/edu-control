@@ -1,6 +1,6 @@
 import colegio as Colegio
 import administrador as Administador
-from alumno import Alumno
+import alumno as Alumno
 
 registro = Colegio.Colegio()
 
@@ -63,9 +63,9 @@ def validacion_clave():
 # Acá revisamos qué pasó arriba. Si el usuario falló los 3 intentos, el programa avisa que el sistema se bloqueó y tira un 
 # 'return' para echarlo de la función inmediatamente, sin dejarlo ver el menú.
     if not autenticado:
-        print("************************************************************")
+        print("********************")
         print("SISTEMA BLOQUEADO: has superado el límite de los 3 intentos.")
-        print("************************************************************")
+        print("********************")
         return
     
 #MENÚ INTERACTIVO 
@@ -77,98 +77,79 @@ def validacion_clave():
         print("-------------------------------------------")
         print("               MENÚ CLAVE")
         print("-------------------------------------------")
-        print("1. Cambiar clave")
-        print("2. Salir")
+        print("\n1. Cambiar clave")
+        print("\n2. Salir")
         print("-------------------------------------------")
 
         opcion = input("Selecciona la opcion: ")
-        if opcion == "1":
-            nueva = input("Introduce clave nueva: ")
-            sistema.cambio_clave(nueva)
-        elif opcion == "2":
-            print("Cerrando sesion. Hasta luego!")
-            break
-        else:
-            print("Opcion inválida.")
+        match opcion:
+            case"1":
+                nueva = input("Introduce clave nueva: ")
+                sistema.cambio_clave(nueva)
+            case"2":
+                print("Cerrando sesion. Hasta luego!")
+                break
+            case _:
+                print("Opcion inválida.")
 
 
 #Aqui termina la funcion de validacion_clave()
 
 
 #Aqui va la funcion de panel_admin()
-
-
-
-
-#Aqui termina la funcion de panel_admin()
-
-
-#Aqui va la funcion de agregar_alumno()
-
-
-
-
-#Aqui termina la funcion de agregar_alumno()
-
-
-#Aqui va la funcion de panel_alumno()
-
-
-
-
-#Aqui termina la funcion de panel_alumno()
-
-
-#Aqui va la funcion de actualizar_credencial()validacion_clave
-#Debe pedir la contraseña dos v
-
-
-
-
-#Aqui termina la funcion de actualizar_credencial()
-
-# Aqui va la funcion de obtener_ficha()
-
-def obtener_ficha(): 
-    print(" --- Obtener ficha Academica ---")
-    rut = input("Ingrese el RUT del alumno a buscar: ")
-    alumno = registro.buscar_alumno_por_rut(rut)
-
-    if alumno != None:
-        print("=======================================")
-        print("          DATOS DEL ALUMNO             ")
-        print("=======================================")
-        print(f"RUT:           {alumno.rut}")
-        print(f"Nombre:        {alumno.nombre}")
-        print(f"Apellido:      {alumno.apellido}")
-        print(f"Curso:         {alumno.curso}")
-        print("---------------------------------------")
-        print("=======================================")
-    else:
-            print("El alumno con RUT ingresado no se encuentra registrado.")
-
-
-
-# Aqui termina la funcion de obtener_ficha()
-
-
-#Aqui va la funcion de generar_certificado()
-
-def generar_certificado(alumno):
-    intentos = 3
-    try:
-        while intentos > 0:
-            clave = input(f"Hola {alumno.nombre}, ingresa tu clave: ")
-            if alumno.validar_de_contraseña(clave):
-                registro.buscar_alumno_por_rut(alumno.rut)
-                print(f"El alumno {alumno.nombre} {alumno.apellido} se encuentra matriculado en el nivel {alumno.curso}")
+#inicio del menu del adminstrador con condicional de if y else  y el uso del bucle while True)
+def panel_admin():
+    while True:
+        print("""\nPanel de Administrador
+              1. Registrar Alumno
+              2. Buscar alumno(rut)
+              3. Salir""")
+        opcion = input("Seleccione una opción: ")
+        match opcion:
+                #registro de alumno
+            case "1":
+                  registrar_alumno()
+                #busqueda del alumno en base del rut  
+            case "2":
+                print()
+                #opcion para poder salir del menu        
+            case "3":
+                print("Saliendo del panel de administrador")
                 break
-            else:
-                intentos -= 1
-                print(f"Contraseña incorrecta te quedan {intentos} intentos.")
-        print("Se te agotaron los intentos. No se imprimira el certificado.")
-    except Exception as e:
-        print(f"Error: {e}")
-
-
-#Aqui termina la funcion de generar_certificado()
+                #opcion por defecto para opcion invalida
+            case _:
+                print("Opción invalida")
+                continue
+#metodo de registro de alumno para el panel del administrador
+def  registrar_alumno():
+    rut = input("Ingrese el rut del alumno: ")
+    while True:
+        if len(rut) >= 8 and len(rut) <= 10:
+            print("el rut ingresado es correcto")
+            break
+        else:
+            print("rut incorrecto")
+    nombre = input("Ingrese el nombre del alumno: ")
+    apellido = input("Ingrese el apellido del alumno: ")
+    while True:
+            #Despliegue de los cursos
+        for i, nivel in enumerate(colegio.obtener_cursos(), start=1):
+            print(f"{i}. {nivel}")
+        seleccion = input("Seleccione el numero del curso: ")
+            #Validacion para el curso
+        if seleccion != "" and seleccion.isnumeric():
+            indice = int(seleccion) - 1
+            if indice < 0 or indice >= len(colegio.obtener_cursos()):
+                print("Opcion no valida.")
+                input("Pulsa ENTER para volver a intentar...")
+                continue
+            curso = colegio.obtener_cursos()[indice]
+            break
+        else:
+            print("Opcion no valida.")
+            input("Pulsa ENTER para volver a intentar...")
+            continue
+    alumno = Alumno.Alumno(rut, nombre, apellido, curso)
+    colegio.agregar_alumno(alumno)
+    print(f"El alumno {alumno.nombre} {alumno.apellido} ha sido registrado correctamente en el curso {alumno.curso}.")
+    return alumno
