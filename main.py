@@ -3,6 +3,7 @@ import administrador as Administador
 import alumno as Alumno
 
 colegio = Colegio.Colegio()
+sistema = Administador.Administrador()
 
 #Aqui va la funcion para mostrar el panel principal
 
@@ -30,30 +31,40 @@ def panel_principal():
 # Aquí preparamos todo antes de empezar, traemos al administrador, definimos 
 # que el límite son 3 intentos, ponemos el contador a cero y dejamos el acceso 
 # cerrado hasta que se demuestre lo contrario.
-def validacion_clave():
-    sistema= Administador.Administrador() #Instanciamos el objeto del administrador para poder verificarla o cambiarla
+def validacion_clave(usuario, rol=""):
     intento = 3
     contador = 0
     autenticado = False #Dejamos el acceso cerrado (autenticado = False) hasta que se demuestre lo contrario.
     print("=======================================================")
-    print("            SISTEMA DE VALIDACIÓN DE CLAVE")
+    print("            SISTEMA DE VALIDACIÓN DE CLAVE             ")
     print("=======================================================")
-
 # Este bucle le da al usuario 3 intentos para poner la clave. Si es correcto, 
 # abrimos el candado (autenticado = True) y saltamos hacia adelante. Si le se equivoca, 
 # le sumamos un error, calculamos cuántos intentos le quedan y lo dejamos reintentar.
-
-    while contador < intento:
-        clave = input("Ingrese clave: ")
-        if sistema.clave(clave):
-            print ("Acceso concedido.")
-            autenticado = True
-            return autenticado
-        else:
-            contador +=1
-            intentos_restantes= intento - contador
-            print(f"Clave incorrecta. Intentos restantes : { intentos_restantes}")
-
+    if rol == "admin":
+        while contador < intento:
+            clave = input("Ingrese clave: ")
+            if usuario.clave(clave):
+                print ("Acceso concedido.")
+                autenticado = True
+                return autenticado
+            else:
+                contador +=1
+                intentos_restantes= intento - contador
+                print(f"Clave incorrecta. Intentos restantes : { intentos_restantes}")
+    else:
+        if not usuario.password:
+            gestionar_clave_alumno(usuario)
+        while contador < intento:
+            clave = input("Ingrese clave: ")
+            if usuario.validar_de_contraseña(clave):
+                print ("Acceso concedido.")
+                autenticado = True
+                return autenticado
+            else:
+                contador +=1
+                intentos_restantes= intento - contador
+                print(f"Clave incorrecta. Intentos restantes : { intentos_restantes}")
 # Acá revisamos qué pasó arriba. Si el usuario falló los 3 intentos, el programa avisa que el sistema se bloqueó y tira un 
 # 'return' para echarlo de la función inmediatamente, sin dejarlo ver el menú.
     if not autenticado:
@@ -68,7 +79,7 @@ def validacion_clave():
 #Aqui va la funcion de panel_admin()
 
 def panel_admin():
-    if not validacion_clave():
+    if not validacion_clave(sistema, "admin"):
         return
     while True:
         print("""\nPanel de Administrador
@@ -184,7 +195,7 @@ def gestionar_clave_alumno(alumno):
 
             # Validamos si las claves no están vacías y si coinciden
             if clave_alumno == clave_alumno2 and clave_alumno != "":
-                alumno.establecer_clave(clave_alumno)
+                alumno.creacion_de_contraseña(clave_alumno)
                 print("Operación completada con éxito. Clave creada.")
                 input("Pulsa ENTER para continuar...")
                 return
@@ -210,7 +221,7 @@ def gestionar_clave_alumno(alumno):
             clave_alumno2 = input("Repite la clave: ").strip()
 
             if clave_alumno == clave_alumno2 and clave_alumno != "":
-                alumno.establecer_clave(clave_alumno)
+                alumno.creacion_de_contraseña(clave_alumno)
                 print("Operación completada con éxito. Clave modificada.")
                 input("Pulsa ENTER para continuar...")
                 return
@@ -269,3 +280,9 @@ def generar_certificado(alumno):
 
 
 #Aqui termina la funcion de generar_certificado()
+#Aqui se podran realizar pruebas
+# alumno = Alumno.Alumno("205045678", "Martin", "Ardiles", "1ro Basico")
+# alumno.creacion_de_contraseña("1208")
+# gestionar_clave_alumno(alumno)
+# validacion_clave(sistema, "admin")
+panel_principal()
