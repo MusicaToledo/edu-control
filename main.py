@@ -1,29 +1,14 @@
 import colegio as Colegio
 import administrador as Administador
-import alumno as Alumno
+from alumno import Alumno
 
-colegio = Colegio.Colegio()
+registro = Colegio.Colegio()
 
 #Aqui va la funcion para mostrar el panel principal
 
-def panel_principal():
-    while True:
-        print("\n------------ EduControl ------------")
-        print("1. ingresar como administrador")
-        print("2. ingresar como alumno")
-        print("3. Salir del sistema")
-        opcion = input("Seleccione solo una opcion: ")
-        if opcion == "1":
-            panel_admin()
-        elif opcion == "2":
-            print("ingresando al panel de alumno.....")
-            panel_alumno()  #la voy a dejar asi aunque  todavia no este echo el panel de alumno 
-        elif opcion == "3":
-            print("saliendo del programa...")
-            break
-        else:
-            print("Opción inválida. Por favor, seleccione una opción válida.") 
-            continue
+
+
+
 #Aqui termina la funcion para mostrar el panel principal
 
 
@@ -48,7 +33,7 @@ def validacion_clave():
         if sistema.clave(clave):
             print ("Acceso concedido.")
             autenticado = True
-            return autenticado
+            break
         else:
             contador +=1
             intentos_restantes= intento - contador
@@ -60,80 +45,98 @@ def validacion_clave():
         print("************************************************************")
         print("SISTEMA BLOQUEADO: has superado el límite de los 3 intentos.")
         print("************************************************************")
-        return autenticado
+        return
+    
+#MENÚ INTERACTIVO 
+# Si el usuario pasó el filtro, llega acá. Es un menú que se repite todo el 
+# tiempo en pantalla para que elija: la Opción 1 para cambiar la contraseña,
+# la Opción 2 para cerrar sesión y salir del programa.
+
+    while True:
+        print("-------------------------------------------")
+        print("               MENÚ CLAVE")
+        print("-------------------------------------------")
+        print("1. Cambiar clave")
+        print("2. Salir")
+        print("-------------------------------------------")
+
+        opcion = input("Selecciona la opcion: ")
+        if opcion == "1":
+            nueva = input("Introduce clave nueva: ")
+            sistema.cambio_clave(nueva)
+        elif opcion == "2":
+            print("Cerrando sesion. Hasta luego!")
+            break
+        else:
+            print("Opcion inválida.")
+
 
 #Aqui termina la funcion de validacion_clave()
 
 
 #Aqui va la funcion de panel_admin()
 
-def panel_admin():
-    if not validacion_clave():
-        return
-    while True:
-        print("""\nPanel de Administrador
-              1. Registrar Alumno
-              2. Buscar alumno(rut)
-              3. Salir""")
-        opcion = input("Seleccione una opción: ")
-        match opcion:
-                #registro de alumno
-            case "1":
-                registrar_alumno()
-                #busqueda del alumno en base del rut  
-            case "2":
-                obtener_ficha()
-                #opcion para poder salir del menu        
-            case "3":
-                print("Saliendo del panel de administrador")
-                break
-                #opcion por defecto para opcion invalida
-            case _:
-                print("Opción invalida")
-                continue
+
+
+
 #Aqui termina la funcion de panel_admin()
 
 
 #Aqui va la funcion de agregar_alumno()
 
-def registrar_alumno():
-    while True:
-        rut = input("Ingrese el rut del alumno: ")
-        if len(rut) >= 8 and len(rut) <= 10:
-            print("el rut ingresado es correcto")
-            break
-        else:
-            print("rut incorrecto")
-    nombre = input("Ingrese el nombre del alumno: ")
-    apellido = input("Ingrese el apellido del alumno: ")
-    while True:
-            #Despliegue de los cursos
-        for i, nivel in enumerate(colegio.obtener_cursos(), start=1):
-            print(f"{i}. {nivel}")
-        seleccion = input("Seleccione el numero del curso: ")
-            #Validacion para el curso
-        if seleccion != "" and seleccion.isnumeric():
-            indice = int(seleccion) - 1
-            if indice < 0 or indice >= len(colegio.obtener_cursos()):
-                print("Opcion no valida.")
-                input("Pulsa ENTER para volver a intentar...")
-                continue
-            curso = colegio.obtener_cursos()[indice]
-            break
-        else:
-            print("Opcion no valida.")
-            input("Pulsa ENTER para volver a intentar...")
-            continue
-    alumno = Alumno.Alumno(rut, nombre, apellido, curso)
-    colegio.agregar_alumno(alumno)
-    print(f"El alumno {alumno.nombre} {alumno.apellido} ha sido registrado correctamente en el curso {alumno.curso}.")
-    return alumno
+
+
 
 #Aqui termina la funcion de agregar_alumno()
 
 
 #Aqui va la funcion de panel_alumno()
-
+def panel_alumno(alumno):
+    while True:
+        print(f" Menu de estudiantes, bienvenido {alumno.nombre.upper()} ")
+        print("1. Hacer tarea")
+        print("2. Estudiar")
+        print("3. Generar certificado")
+        print("4. Cambiar mi contraseña")
+        print("5. Salir")
+        
+        estudiante_op = input("Seleccione una opción: ").strip()
+        
+        #no ingresó nada
+        if estudiante_op == "":
+            print("No ingresó nada")
+            input("Presione enter para continuar...")
+            continue
+            
+        match estudiante_op:
+            case "1":
+                print("haz tarea vago/a")
+                input("Presione enter para continuar")
+                
+            case "2":
+                print("que esperas bobo/a")
+                input("Presione enter para continuar")
+                
+            case "3":
+                print("SOLICITUD DE CERTIFICADO")
+                c3 = input("Ingrese contraseña para generar certificado: ")
+                
+                if c3 == alumno.password:
+                    print(f"Certificado de {alumno.nombre} {alumno.apellido}, curso {alumno.curso}.")
+                else:
+                    print("Contraseña incorrecta")
+                input("Presione enter para continuar...")
+                    
+            case "4":
+                gestionar_clave_alumno(alumno)
+                input("Presionar enter para continuar") # cambio de contraseña
+                
+            case "5":
+                print("Regresando al menú principal") 
+                break
+                
+            case _:
+                print("Opción no válida")
 
 
 
@@ -143,7 +146,89 @@ def registrar_alumno():
 #Aqui va la funcion de actualizar_credencial()validacion_clave
 #Debe pedir la contraseña dos v
 
+def gestionar_clave_alumno(alumno):
+    # GESTIONAR CONTRASEÑA
+        #Si no encontramos su clave
 
+            if not alumno.password:
+
+                #La crearemos
+
+                while True:
+
+                    #El alumno ingresa su clave y la validamos dos veces con .strip() le quitamos los espacios al texto
+
+                    clave_alumno = input(f"Debes crear tu clave sin espacios: ").strip()
+
+                    clave_alumno2 = input("Repite la clave: ").strip()
+
+                    #Validamos si las claves no estan vacias y si coinciden
+
+                    if clave_alumno == clave_alumno2 and clave_alumno != "":
+
+                        #Establecemos la clave del alumno
+
+                        alumno.establecer_clave(clave_alumno)
+
+                        print("Operacion completada con exito.")
+
+                        input("Pulsa ENTER para continuar...")
+
+                        return
+
+                    else:
+
+                        #Le indicamos al alumno que hubo un error
+
+                        print("Las claves no coinciden o estan vacias.")
+
+                        input("Pulsa ENTER para continuar...")
+
+                        
+
+            #Por otro lado si encontramos que el alumno si cuenta con clave
+
+            else:
+
+                #La validaremos
+
+                if not alumno.password(alumno):
+
+                    return
+
+                #Si valida su clave con exito la modificaremos
+
+                while True:
+
+                    #El alumno ingresa su clave y la validamos dos veces con .strip() le quitamos los espacios al texto
+
+                    clave_alumno = input(f"Debes modificar tu clave sin espacios: ").strip()
+
+                    clave_alumno2 = input("Repite la clave: ").strip()
+
+                    #Validamos si las claves no estan vacias y si coinciden
+
+                    if clave_alumno == clave_alumno2 and clave_alumno != "":
+
+                        #Establecemos la clave del alumno
+
+                        alumno.establecer_clave(clave_alumno)
+
+                        print("Operacion completada con exito.")
+
+                        input("Pulsa ENTER para continuar...")
+
+                        return
+
+                    else:
+
+                        #Le indicamos al alumno que hubo un error
+
+                        print("Las claves no coinciden o estan vacias.")
+
+                        input("Pulsa ENTER para continuar...")
+
+                        continue      
 
 
 #Aqui termina la funcion de actualizar_credencial()
@@ -153,7 +238,7 @@ def registrar_alumno():
 def obtener_ficha(): 
     print(" --- Obtener ficha Academica ---")
     rut = input("Ingrese el RUT del alumno a buscar: ")
-    alumno = colegio.buscar_alumno_por_rut(rut)
+    alumno = registro.buscar_alumno_por_rut(rut)
 
     if alumno != None:
         print("=======================================")
@@ -181,7 +266,7 @@ def generar_certificado(alumno):
         while intentos > 0:
             clave = input(f"Hola {alumno.nombre}, ingresa tu clave: ")
             if alumno.validar_de_contraseña(clave):
-                colegio.buscar_alumno_por_rut(alumno.rut)
+                registro.buscar_alumno_por_rut(alumno.rut)
                 print(f"El alumno {alumno.nombre} {alumno.apellido} se encuentra matriculado en el nivel {alumno.curso}")
                 break
             else:
@@ -193,3 +278,4 @@ def generar_certificado(alumno):
 
 
 #Aqui termina la funcion de generar_certificado()
+
