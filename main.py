@@ -76,6 +76,29 @@ def validacion_clave():
 
 
 #Aqui va la funcion de panel_admin()
+#inicio del menu del adminstrador con condicional de if y else  y el uso del bucle while True)
+def panel_admin():
+    while True:
+        print("""\nPanel de Administrador
+              1. Registrar Alumno
+              2. Buscar alumno(rut)
+              3. Salir""")
+        opcion = input("Seleccione una opción: ")
+        match opcion:
+                #registro de alumno
+            case "1":
+                  registrar_alumno()
+                #busqueda del alumno en base del rut  
+            case "2":
+                print()
+                #opcion para poder salir del menu        
+            case "3":
+                print("Saliendo del panel de administrador")
+                break
+                #opcion por defecto para opcion invalida
+            case _:
+                print("Opción invalida")
+                continue
 #metodo de registro de alumno para el panel del administrador
 def  registrar_alumno():
     rut = input("Ingrese el rut del alumno: ")
@@ -109,26 +132,3 @@ def  registrar_alumno():
     colegio.agregar_alumno(alumno)
     print(f"El alumno {alumno.nombre} {alumno.apellido} ha sido registrado correctamente en el curso {alumno.curso}.")
     return alumno
-#inicio del menu del adminstrador con condicional de if y else  y el uso del bucle while True)
-def panel_admin():
-    while True:
-        print("""\nPanel de Administrador
-              1. Registrar Alumno
-              2. Buscar alumno(rut)
-              3. Salir""")
-        opcion = input("Seleccione una opción: ")
-        match opcion:
-                #registro de alumno
-            case "1":
-                  registrar_alumno()
-                #busqueda del alumno en base del rut  
-            case "2":
-                print()
-                #opcion para poder salir del menu        
-            case "3":
-                print("Saliendo del panel de administrador")
-                break
-                #opcion por defecto para opcion invalida
-            case _:
-                print("Opción invalida")
-                continue
