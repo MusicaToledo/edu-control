@@ -77,24 +77,25 @@ def validacion_clave(usuario, rol=""):
 
 
 #Aqui va la funcion de panel_admin()
-
 def panel_admin():
+    #Validamos la clave del administrador.
     if not validacion_clave(sistema, "admin"):
         return
+    #Ingresamos al menu de administrador.
     while True:
         print("""\nPanel de Administrador
-              1. Registrar Alumno
-              2. Buscar alumno(rut)
-              3. Salir""")
+            1. Registrar Alumno
+            2. Buscar alumno(rut)
+            3. Salir""")
         opcion = input("Seleccione una opción: ")
         match opcion:
-                #registro de alumno
+                #Registro de alumno.
             case "1":
                 registrar_alumno()
-                #busqueda del alumno en base del rut  
+                #Busqueda del alumno en base del rut.
             case "2":
                 obtener_ficha()
-                #opcion para poder salir del menu        
+                #Opcion para poder salir del menu.  
             case "3":
                 print("Saliendo del panel de administrador")
                 break
@@ -106,40 +107,57 @@ def panel_admin():
 
 
 #Aqui va la funcion de agregar_alumno()
-
 def registrar_alumno():
+    #Validamos el campo del rut
     while True:
-        rut = input("Ingrese el rut del alumno: ")
-        if len(rut) >= 8 and len(rut) <= 10:
-            print("el rut ingresado es correcto")
-            break
-        else:
-            print("rut incorrecto")
-    nombre = input("Ingrese el nombre del alumno: ")
-    apellido = input("Ingrese el apellido del alumno: ")
+        rut = input("Ingrese el rut del alumno: ").strip()
+        #Validamos que el rut tenga entre 8 a 9 caracteres.
+        if len(rut) > 9 or len(rut) < 8:
+            print("El rut ingresado no es correcto.")
+            continue
+        #Validamos que el rut no exista en el registro.
+        if colegio.buscar_alumno_por_rut(rut):
+            print("Ese rut ya existe, intentalo de nuevo.")
+            continue
+        #Si pasamos ambas validaciones avanzamos
+        break
+    #Validamos el campo del nombre y apellido.
     while True:
-            #Despliegue de los cursos
+        nombre = input("Ingrese el nombre del alumno: ")
+        apellido = input("Ingrese el apellido del alumno: ")
+        #Validamos si el nombre O el apellido estan vacios.
+        if not nombre or not apellido:
+            print("El nombre y el apellido no pueden quedar vacios.")
+            continue
+        #Si pasamos la validacion avanzamos.
+        break
+    #Validamos el campo de curso.
+    while True:
+        #Despliegue de los cursos.
         for i, nivel in enumerate(colegio.obtener_cursos(), start=1):
             print(f"{i}. {nivel}")
         seleccion = input("Seleccione el numero del curso: ")
-            #Validacion para el curso
-        if seleccion != "" and seleccion.isnumeric():
+        #Validamos el indice seleccionado.
+        try:
             indice = int(seleccion) - 1
-            if indice < 0 or indice >= len(colegio.obtener_cursos()):
-                print("Opcion no valida.")
+            #Validamos que el indice este dentro del rango de los cursos.
+            if indice >= 0 and indice < len(colegio.obtener_cursos()):
+                curso = colegio.obtener_cursos()[indice]
+                break
+            #Si no, mandamos mensaje de que el curso no existe.
+            else:
+                print("Error: El curso no existe.")
                 input("Pulsa ENTER para volver a intentar...")
                 continue
-            curso = colegio.obtener_cursos()[indice]
-            break
-        else:
-            print("Opcion no valida.")
+        #Manejamos el error del valor si ingresa una opcion vacia o si ingresa una letra.
+        except ValueError:
+            print("Error: El campo no puede estar vacio y solo admite numeros.")
             input("Pulsa ENTER para volver a intentar...")
-            continue
+    #Si pasamos todas las validaciones, creamos al alumno.
     alumno = Alumno.Alumno(rut, nombre, apellido, curso)
+    #Agregamos el alumno a nuestro registro.
     colegio.agregar_alumno(alumno)
     print(f"El alumno {alumno.nombre} {alumno.apellido} ha sido registrado correctamente en el curso {alumno.curso}.")
-    return alumno
-
 #Aqui termina la funcion de agregar_alumno()
 
 
