@@ -162,40 +162,36 @@ def registrar_alumno():
 
 
 #Aqui va la funcion de panel_alumno()
-def panel_alumno(alumno):
+def panel_alumno():
+    rut = input("Ingrese su RUT: ").strip()
+    alumno = colegio.buscar_alumno_por_rut(rut)
+    if not alumno:
+        print("Error: El alumno no fue encontrado.")
+        input("Pulsa ENTER para continuar...")
+        return
+    if not validacion_clave(alumno):
+        print("Error: Clave incorrecta.")
+        input("Pulsa ENTER para continuar...")
+        return
     while True:
-        print(f"Menu de estudiantes, bienvenido {alumno.nombre.upper()} ")
-        print("1. Hacer tarea")
-        print("2. Estudiar")
-        print("3. Generar certificado")
-        print("4. Cambiar mi contraseña")
-        print("5. Salir")
+        print(f"Menu de estudiantes, bienvenido {alumno.nombre.capitalize()}")
+        print("1. Generar certificado.")
+        print("2. Ficha academica.")
+        print("3. Cambiar mi contraseña.")
+        print("4. Salir")
         estudiante_op = input("Seleccione una opción: ").strip()
-        # no ingresó nada
-        if estudiante_op == "":
-            print("No ingresó nada")
-            input("Presione enter para continuar...")
-            continue
         match estudiante_op:
             case "1":
-                print("haz tarea vago/a")
-                input("Presione enter para continuar")
+                generar_certificado(alumno)
             case "2":
-                print("que esperas bobo/a")
-                input("Presione enter para continuar")
+                obtener_ficha(alumno)
             case "3":
-                print("SOLICITUD DE CERTIFICADO")
-                c3 = input("Ingrese contraseña para generar certificado: ")
-                if c3 == alumno.password:
-                    print(f"Certificado de {alumno.nombre} {alumno.apellido}, curso {alumno.curso}.")
-                else:
-                    print("Contraseña incorrecta")
-                input("Presione enter para continuar...")
-            case "4":
                 gestionar_clave_alumno(alumno)
-            case "5":
+            case "4":
                 print("Regresando al menú principal") 
                 break
+            case "":
+                print("No ingresaste nada.")
             case _:
                 print("Opción no válida")
 #Aqui termina la funcion de panel_alumno()
@@ -210,7 +206,6 @@ def gestionar_clave_alumno(alumno):
             # El alumno ingresa su clave y quitamos espacios a los extremos con .strip()
             clave_alumno = input("Debes crear tu clave sin espacios: ").strip()
             clave_alumno2 = input("Repite la clave: ").strip()
-
             # Validamos si las claves no están vacías y si coinciden
             if clave_alumno == clave_alumno2 and clave_alumno != "":
                 alumno.creacion_de_contraseña(clave_alumno)
@@ -220,7 +215,6 @@ def gestionar_clave_alumno(alumno):
             else:
                 print("Las claves no coinciden o están vacías.")
                 input("Pulsa ENTER para continuar...")
-
     # Si encontramos que el alumno sí cuenta con clave
     else:
         # Le pedimos la clave actual antes de cambiarla
@@ -245,21 +239,16 @@ def gestionar_clave_alumno(alumno):
                 return
             else:
                 print("Las claves no coinciden o están vacías.")
-                input("Pulsa ENTER para continuar...")#Aqui termina la funcion de actualizar_credencial()
-#Debe pedir la contraseña dos v
-
-
-
-
+                input("Pulsa ENTER para continuar...")
 #Aqui termina la funcion de actualizar_credencial()
 
 # Aqui va la funcion de obtener_ficha()
 
-def obtener_ficha(): 
+def obtener_ficha(alumno=""):
     print(" --- Obtener ficha Academica ---")
-    rut = input("Ingrese el RUT del alumno a buscar: ")
-    alumno = colegio.buscar_alumno_por_rut(rut)
-
+    if not alumno: 
+        rut = input("Ingrese el RUT del alumno a buscar: ")
+        alumno = colegio.buscar_alumno_por_rut(rut)
     if alumno != None:
         print("=======================================")
         print("          DATOS DEL ALUMNO             ")
@@ -271,7 +260,7 @@ def obtener_ficha():
         print("---------------------------------------")
         print("=======================================")
     else:
-            print("El alumno con RUT ingresado no se encuentra registrado.")
+        print("El alumno con RUT ingresado no se encuentra registrado.")
 
 
 
