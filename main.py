@@ -110,7 +110,7 @@ def panel_admin():
 def registrar_alumno():
     #Validamos el campo del rut
     while True:
-        rut = input("Ingrese el rut del alumno: ").strip()
+        rut = input("Ingrese el rut del alumno: ").strip().upper()
         #Validamos que el rut tenga entre 8 a 9 caracteres.
         if len(rut) > 9 or len(rut) < 8:
             print("El rut ingresado no es correcto.")
@@ -163,7 +163,7 @@ def registrar_alumno():
 
 #Aqui va la funcion de panel_alumno()
 def panel_alumno():
-    rut = input("Ingrese su RUT: ").strip()
+    rut = input("Ingrese su RUT: ").strip().upper()
     alumno = colegio.buscar_alumno_por_rut(rut)
     if not alumno:
         print("Error: El alumno no fue encontrado.")
@@ -247,7 +247,7 @@ def gestionar_clave_alumno(alumno):
 def obtener_ficha(alumno=""):
     print(" --- Obtener ficha Academica ---")
     if not alumno: 
-        rut = input("Ingrese el RUT del alumno a buscar: ")
+        rut = input("Ingrese el RUT del alumno a buscar: ").strip().upper()
         alumno = colegio.buscar_alumno_por_rut(rut)
     if alumno != None:
         print("=======================================")
