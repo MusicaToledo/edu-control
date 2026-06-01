@@ -257,7 +257,6 @@ def obtener_ficha(alumno=""):
         print(f"Nombre:        {alumno.nombre}")
         print(f"Apellido:      {alumno.apellido}")
         print(f"Curso:         {alumno.curso}")
-        print("---------------------------------------")
         print("=======================================")
     else:
         print("El alumno con RUT ingresado no se encuentra registrado.")
@@ -270,21 +269,15 @@ def obtener_ficha(alumno=""):
 #Aqui va la funcion de generar_certificado()
 
 def generar_certificado(alumno):
-    intentos = 3
-    try:
-        while intentos > 0:
-            clave = input(f"Hola {alumno.nombre}, ingresa tu clave: ")
-            if alumno.validar_de_contraseña(clave):
-                colegio.buscar_alumno_por_rut(alumno.rut)
-                print(f"El alumno {alumno.nombre} {alumno.apellido} se encuentra matriculado en el nivel {alumno.curso}")
-                break
-            else:
-                intentos -= 1
-                print(f"Contraseña incorrecta te quedan {intentos} intentos.")
-        print("Se te agotaron los intentos. No se imprimira el certificado.")
-    except Exception as e:
-        print(f"Error: {e}")
-
+    if not validacion_clave(alumno):
+        return
+    print("=======================================")
+    print("       CERTIFICADO DE MATRICULA        ")
+    print("=======================================")
+    print(f"El alumno {alumno.nombre} {alumno.apellido} \n"
+          f"se encuentra matriculado en el nivel {alumno.curso}")
+    print("=======================================")
+    input("Pulsa ENTER para continuar...")
 
 #Aqui termina la funcion de generar_certificado()
 #Aqui se podran realizar pruebas
