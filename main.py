@@ -14,17 +14,20 @@ def panel_principal():
         print("2. ingresar como alumno")
         print("3. Salir del sistema")
         opcion = input("Seleccione solo una opcion: ")
-        if opcion == "1":
-            panel_admin()
-        elif opcion == "2":
-            print("ingresando al panel de alumno.....")
-            panel_alumno()  
-        elif opcion == "3":
-            print("saliendo del programa...")
-            break
-        else:
-            print("Opción inválida. Por favor, seleccione una opción válida.") 
-            continue
+        match opcion:
+            case "1":
+                panel_admin()
+            case "2":
+                print("ingresando al panel de alumno.....")
+                panel_alumno()
+            case "3":
+                print("saliendo del programa...")
+                break
+            case _:
+                print("Opción inválida. Por favor, seleccione una opción válida.")
+                continue
+
+
 #Aqui termina la funcion para mostrar el panel principal
 
 
