@@ -133,6 +133,8 @@ def registrar_alumno():
 
 
 #Aqui va la funcion de panel_alumno()
+
+
 def panel_alumno(alumno):
     while True:
         print(f"Menu de estudiantes, bienvenido {alumno.nombre.upper()} ")
@@ -142,6 +144,10 @@ def panel_alumno(alumno):
         print("4. Cambiar mi contraseña")
         print("5. Salir")
         estudiante_op = input("Seleccione una opción: ").strip()
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
         # no ingresó nada
         if estudiante_op == "":
             print("No ingresó nada")
@@ -164,14 +170,25 @@ def panel_alumno(alumno):
                 input("Presione enter para continuar...")
             case "4":
                 gestionar_clave_alumno(alumno)
+<<<<<<< Updated upstream
+=======
+                
+>>>>>>> Stashed changes
             case "5":
                 print("Regresando al menú principal") 
                 break
             case _:
                 print("Opción no válida")
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 #Aqui termina la funcion de panel_alumno()
 
 #Aqui va la funcion de actualizar_credencial()validacion_clave
+
+
 #Debe pedir la contraseña dos v
 def gestionar_clave_alumno(alumno):
     # GESTIONAR CONTRASEÑA
@@ -216,10 +233,16 @@ def gestionar_clave_alumno(alumno):
                 return
             else:
                 print("Las claves no coinciden o están vacías.")
+<<<<<<< Updated upstream
                 input("Pulsa ENTER para continuar...")#Aqui termina la funcion de actualizar_credencial()
 #Debe pedir la contraseña dos v
 
 
+=======
+                input("Pulsa ENTER para continuar...")
+
+# fin de gestion de contraseña
+>>>>>>> Stashed changes
 
 
 #Aqui termina la funcion de actualizar_credencial()
