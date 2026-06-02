@@ -18,7 +18,7 @@ def panel_principal():
             panel_admin()
         elif opcion == "2":
             print("ingresando al panel de alumno.....")
-            panel_alumno()  #la voy a dejar asi aunque  todavia no este echo el panel de alumno 
+            panel_alumno()  
         elif opcion == "3":
             print("saliendo del programa...")
             break

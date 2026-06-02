@@ -4,7 +4,7 @@ La clase sistema usará esta clase para validad la clave e ingresar al menú de 
 """
 class Administrador:
     def __init__(self): 
-        self.admin_key = "python" 
+        self.admin_key = "Edu2026" 
     def clave(self,clave):
         if clave == self.admin_key:
             return True
