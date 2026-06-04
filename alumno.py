@@ -9,7 +9,7 @@ class Alumno:
         
     #metodo de creacion de contraseña este metodo permite crear la contraseña del alumno y poder guardarla
  
-    def creacion_de_contraseña(self,clave):
+    def creacion_de_clave(self,clave):
           self.password= clave
           
           return True
@@ -17,7 +17,7 @@ class Alumno:
     #metodo de validacion de contraseña este metodo va de la mano del anterior con la diferencia 
     # de que este valida la contraseña con el dato de la clase alumno   
  
-    def validar_de_contraseña(self,clave):
+    def validar_clave(self,clave):
           if clave== self.password:
                return True
           else:
@@ -36,4 +36,11 @@ class Alumno:
     #parecidos del certificado del alumno pero en un formato diferente
 
     def ficha_alumno(self):
-      print(f"el alumno {self.nombre}, {self.apellido} a sido registrado en el curso {self.curso}")
+        print("=======================================")
+        print("          DATOS DEL ALUMNO             ")
+        print("=======================================")
+        print(f"RUT:           {self.rut}")
+        print(f"Nombre:        {self.nombre}")
+        print(f"Apellido:      {self.apellido}")
+        print(f"Curso:         {self.curso}")
+        print("=======================================")

@@ -45,7 +45,7 @@ def validacion_clave(usuario, rol=""):
     if rol == "admin":
         while contador < intento:
             clave = input("Ingrese clave: ")
-            if usuario.clave(clave):
+            if usuario.validar_clave(clave):
                 print ("Acceso concedido.")
                 autenticado = True
                 return autenticado
@@ -58,7 +58,7 @@ def validacion_clave(usuario, rol=""):
             gestionar_clave_alumno(usuario)
         while contador < intento:
             clave = input("Ingrese clave: ")
-            if usuario.validar_de_contraseña(clave):
+            if usuario.validar_clave(clave):
                 print ("Acceso concedido.")
                 autenticado = True
                 return autenticado
@@ -159,6 +159,7 @@ def registrar_alumno():
     #Agregamos el alumno a nuestro registro.
     colegio.agregar_alumno(alumno)
     print(f"El alumno {alumno.nombre} {alumno.apellido} ha sido registrado correctamente en el curso {alumno.curso}.")
+    print(colegio.obtener_registro_global())
 #Aqui termina la funcion de agregar_alumno()
 
 
@@ -209,7 +210,7 @@ def gestionar_clave_alumno(alumno):
             clave_alumno2 = input("Repite la clave: ").strip()
             # Validamos si las claves no están vacías y si coinciden
             if clave_alumno == clave_alumno2 and clave_alumno != "":
-                alumno.creacion_de_contraseña(clave_alumno)
+                alumno.creacion_de_clave(clave_alumno)
                 print("Operación completada con éxito. Clave creada.")
                 input("Pulsa ENTER para continuar...")
                 return
@@ -234,7 +235,7 @@ def gestionar_clave_alumno(alumno):
             clave_alumno2 = input("Repite la clave: ").strip()
 
             if clave_alumno == clave_alumno2 and clave_alumno != "":
-                alumno.creacion_de_contraseña(clave_alumno)
+                alumno.creacion_de_clave(clave_alumno)
                 print("Operación completada con éxito. Clave modificada.")
                 input("Pulsa ENTER para continuar...")
                 return
@@ -251,14 +252,7 @@ def obtener_ficha(alumno=""):
         rut = input("Ingrese el RUT del alumno a buscar: ").strip().upper()
         alumno = colegio.buscar_alumno_por_rut(rut)
     if alumno != None:
-        print("=======================================")
-        print("          DATOS DEL ALUMNO             ")
-        print("=======================================")
-        print(f"RUT:           {alumno.rut}")
-        print(f"Nombre:        {alumno.nombre}")
-        print(f"Apellido:      {alumno.apellido}")
-        print(f"Curso:         {alumno.curso}")
-        print("=======================================")
+        alumno.ficha_alumno()
     else:
         print("El alumno con RUT ingresado no se encuentra registrado.")
 
@@ -280,10 +274,5 @@ def generar_certificado(alumno):
     print("=======================================")
     input("Pulsa ENTER para continuar...")
 
-#Aqui termina la funcion de generar_certificado()
-#Aqui se podran realizar pruebas
-# alumno = Alumno.Alumno("205045678", "Martin", "Ardiles", "1ro Basico")
-# alumno.creacion_de_contraseña("1208")
-# gestionar_clave_alumno(alumno)
-# validacion_clave(sistema, "admin")
-panel_principal()
+if __name__ == "__main__":
+    panel_principal()
