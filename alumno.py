@@ -27,10 +27,13 @@ class Alumno:
     #con los datos nesesarios del alumno
                           
     def obtener_certificado(self):
-             print(f"""\nCertificado de alumno:{self.rut}
-             {self.nombre} 
-             {self.apellido}, 
-             Curso: {self.curso}""")
+        print("=======================================")
+        print("       CERTIFICADO DE MATRICULA        ")
+        print("=======================================")
+        print(f"El alumno {self.nombre} {self.apellido} \n"
+            f"se encuentra matriculado en el nivel {self.curso}")
+        print("=======================================")
+        input("Pulsa ENTER para continuar...")
 
     #metodo de la ficha del alumno este metdo permite crear la ficha del alumno con los mismos datos o 
     #parecidos del certificado del alumno pero en un formato diferente

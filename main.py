@@ -266,13 +266,7 @@ def obtener_ficha(alumno=""):
 def generar_certificado(alumno):
     if not validacion_clave(alumno):
         return
-    print("=======================================")
-    print("       CERTIFICADO DE MATRICULA        ")
-    print("=======================================")
-    print(f"El alumno {alumno.nombre} {alumno.apellido} \n"
-          f"se encuentra matriculado en el nivel {alumno.curso}")
-    print("=======================================")
-    input("Pulsa ENTER para continuar...")
+    alumno.obtener_certificado()
 
 if __name__ == "__main__":
     panel_principal()
